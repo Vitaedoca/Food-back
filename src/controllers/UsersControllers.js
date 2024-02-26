@@ -53,15 +53,15 @@ class UsersControllers {
     
             if( password && old_password ) {
 
-                const newPassword = await compare(old_password, user.password);
+                const comparePassword = await compare(old_password, user.password);
     
-                if(!newPassword) {
+                if(!comparePassword) {
                     throw new AppError("Usuário e/ou senha incorreto!");
                 }
     
-                user.password = await hash(password, 8);
+                 const newPassword = await hash(password, 8);
 
-                console.log(user.password);
+                 await knex("users").where({ id: user_id }).update({password: newPassword});
             }
     
             await knex("users").where({id: user_id}).update({
@@ -79,7 +79,7 @@ class UsersControllers {
     }
     async index(request, response) {
 
-        const { user_id } = request.user.id;
+        const user_id = request.user.id;
 
         const users = await knex("users").where({ id: user_id }).first();
 
@@ -89,8 +89,9 @@ class UsersControllers {
     async show(request, response) {
 
         const users = await knex("users");
-
+        
         return response.json({ users });
+
     }
 }
 

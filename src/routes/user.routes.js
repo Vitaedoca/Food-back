@@ -10,7 +10,7 @@ const usersControllers = new UsersControllers();
 usersRoutes.post("/",  usersControllers.create);
 usersRoutes.put("/", ensureAuthenticated, usersControllers.update);
 usersRoutes.get("/", ensureAuthenticated, usersControllers.index);
-usersRoutes.get("/", ensureAuthenticated, usersControllers.show);
+usersRoutes.get("/show", ensureAuthenticated, usersControllers.show);
 
 
 module.exports = usersRoutes;
